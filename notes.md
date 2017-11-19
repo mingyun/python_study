@@ -101,3 +101,37 @@ format(1.2345, ".2f") 得到的就是有两位小数的字符串 '1.23'
 >>> nameset
 {'c', 'o', '.', 'm', 'u', 'h', 's', 'a', 'n', 'i', 'y', 'l'}
 
+>>> 'Linux' in courses
+True
+>>> 'Python' in courses
+False
+>>> 'Python' not in courses
+True
+>>> set1 = {1,2,3,4}
+>>> set2 = {3,4,5,6}
+^ 操作，返回只存在两个集合中的元素：
+
+>>> set1 ^ set2
+{1, 2, 5, 6}
+>>> coursesdict.get(2)
+'Vim'
+>>> coursesdict.get(4, 'default')
+'default'
+>>> dict_from_tuple = dict(((1,'Linux'), (2,'Vim'))) 参数是一个包含若干个二元组的元组
+>>> dict_from_tuple
+{1: 'Linux', 2: 'Vim'}
+
+字典中也存在 pop(key) 函数，可以返回 key 对应的 value，并将该 key:value 键值对删除：
+
+>>> coursesdict
+{2: 'Vim', 5: 'Bash', 6: 'Python'}
+>>> coursesdict.pop(2)
+'Vim'
+>>> coursesdict
+{5: 'Bash', 6: 'Python'}
+
+
+
+
+
+
