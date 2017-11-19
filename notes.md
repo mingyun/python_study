@@ -299,6 +299,48 @@ class Animal(object):
         print('ok')
         
 Animal.order_animal_food()        
-      
-      
-      
+ >>> with open('/etc/protocols') as file:
+...     count = 0
+...     for line in file:
+...         count += 1
+...     print(count)     
+通常会采用逐行处理，readline() 就是用来每次读取文件的一行，readlines() 可以读取所有行，但不同于 read()，这个函数的返回的是一个列表，列表中每个元素都是对应文本文件中一行内容的字符串
+>>> file = open(filename)
+>>> file.readline()
+'I love Python\n'
+>>> file.readline()
+'lou+ at shiyanlou.com\n'
+>>> file.close()
+
+ for 循环遍历文件对象来读取文件中的每一行：
+
+>>> file = open(filename)
+>>> for x in file:
+...     print(x, end = '')
+import sys
+
+def copy_file(src, dst):
+    with open(src, 'r') as src_file:
+        with open(dst, 'w') as dst_file:
+            dst_file.write(src_file.read())
+
+if __name__ == '__main__':
+    if len(sys.argv) == 3:
+        copy_file(sys.argv[1], sys.argv[2])
+    else:
+        print("Parameter Error")
+        print(sys.argv[0], "srcfile dstfile")
+        sys.exit(-1)
+    sys.exit(0)
+    写入和读取文件都需要使用 b 二进制模式
+    >>> import pickle
+>>> courses = { 1:'Linux', 2:'Vim', 3:'Git'}
+>>> with open('./courses.data', 'wb') as file:
+...     pickle.dump(courses, file)
+...
+>>> with open('./courses.data', 'rb') as file:
+...     new_courses = pickle.load(file)
+
+>>> numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+>>> f = filter(lambda x: x % 2 == 0, numbers)
+>>> m = map(lambda x: x * x, numbers)      
