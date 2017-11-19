@@ -427,3 +427,84 @@ Function add has been called at 2017-08-29 13:16:02
 >>> add.__name__
 'add'
 装饰器的应用场景非常多，我们后续学习 Flask Web 开发的时候会大量使用装饰器来实现 Web 页面的路由等功能。
+
+import os
+from multiprocessing import Process
+
+def hello(name):
+    print('child process: {}'.format(os.getpid()))
+    print('Hello ' + name)
+
+def main():
+     # 注意：args 参数要以 tuple 方式传入
+    p = Process(target=hello, args=('shiyanlou', ))
+    p.start()
+    p.join()
+    print('parent process: {}'.format(os.getpid()))
+
+if __name__ == '__main__':
+    main()
+在上面的程序中，首先从 multiprocessing 中导入 Process 类，然后 定义了一个 hello 函数，打印 hello + 传入的 name 值，在 main 函数中，用 Process 类定义了一个子进程，这个子进程要执行的函数是 hello，传入的参数是 shiyanlou，然后调用 start() 方法，启动子进程，这时候子进程会调用 hello 函数，将 shiyanlou 作为参数传入，打印当前进程 id 和 hello shiyanlou 后返回。 join() 方法表示等待子进程运行结束后继续执行，所以在子进程返回后会继续打印父进程的 id。
+
+运行这个程序，会输出：
+
+child process: 60901                                                                                                  
+Hello shiyanlou                                                                                                       
+parent process: 60900
+每次运行程序进程 id 会有所不同。
+进程间通信
+
+进程有自己独立的运行空间，这就意味要使用一些特殊的手段才能实现它们之间的数据交换。multiprocessing 模块提供了 Pipe 和 Queue 两种方式。
+
+Pipe
+
+如果把俩个进程想象成俩个密封的箱子，那 Pipe 就像是连接俩个箱子的一个管道，借助它可以实现俩个箱子简单数据交换。看一下它的使用方法：
+
+from multiprocessing import Pipe
+
+conn1, conn2 = Pipe()
+Pipe() 返回一个 tuple，包含两个连接。默认情况下，打开的管道是全双工的，也就是说你可以在任何一段读写数据，写入数据使用 send 方法，读取数据使用 recv 方法。下面看一个例子：
+
+from multiprocessing import Process, Pipe
+
+conn1, conn2 = Pipe()
+
+def f1():
+    conn1.send('Hello shiyanlou')
+
+def f2():
+    data = conn2.recv()
+    print(data)
+
+def main():
+    Process(target=f1).start()
+    Process(target=f2).start()
+
+if __name__ == '__main__':
+    main()
+这个程序启动了俩个进程，第一个进程在 f1 函数中向 pipe 管道写入 Hello shiyanlou，第二个进程在 f2 函数中从管道中读取数据并打印。
+
+除了 Pipe 外，multiprocessing 模块还实现了一个可以在多进程下使用的队列结构 Queue，使用 Queue 改写上面的程序：
+
+from multiprocessing import Process, Queue
+
+queue = Queue()
+
+def f1():
+    queue.put('Hello shiyanlou')
+
+def f2():
+    data = queue.get()
+    print(data)
+
+def main():
+    Process(target=f1).start()
+    Process(target=f2).start()
+
+if __name__ == '__main__':
+    main()
+Queue 可以在初始化时指定一个最大容量：
+
+queue = Queue(maxsize=10)
+另外通过 Queue.empty() 方法可以判断队列中是否为空，是否还有数据可以读取，如果返回为 True 表示已经没有数据了
+
