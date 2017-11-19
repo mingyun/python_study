@@ -392,5 +392,38 @@ StopIteration
 >>> f5 = fib(5)
 >>> f5
 <generator object fib at 0x10d1a5888>  https://www.shiyanlou.com/courses/983/labs/3961/document
+装饰器可以为函数添加额外的功能而不影响函数的主体功能。在 Python 中，函数是第一等公民，也就是说，函数可以做为参数传递给另外一个函数，一个函数可以将另一函数作为返回值，这就是装饰器实现的基础。装饰器本质上是一个函数，它接受一个函数作为参数。看一个简单的例子，也是装饰器的经典运用场景，记录函数的调用日志
+上面的代码中 *arg 和 **kwargs 都是 Python 中函数的可变参数。 *args 表示任何多个无名参数，是一个元组，**kwargs 表示关键字参数，是一个字典。这两个组合表示了函数的所有参数。如果同时使用时，*args 参数列要在 **kwargs 前。
 
+它等价于进行了下面的操作：
 
+>>> def add(x, y):
+...     return x + y
+...
+>>> add = log(add)
+>>> add(1, 2)
+Function add has been called at 2017-08-29 13:16:02
+3
+也就是说，调用了 log 函数，把 add 函数作为参数，传了进去。log 函数返回了一个另外一个函数 decorator ，在这个函数中，首先打印了日志信息，然后回调了传入的 func ，也就是 `add｀ 函数。
+
+你可能已经发现了，执行完 add = log(add) ，或者说用 @log 装饰 add 后，add 其实已经不再是原来的 add 函数了，它已经变成了log 函数返回的 decorator 函数：
+
+>>> add.__name__
+'decorator'
+这也是装饰器带来的副作用，Python 提供了方法解决这个问题：
+
+>>> from functools import wraps
+>>> def log(func):
+...     @wraps(func)
+...     def decorator(*args, **kwargs):
+...         print('Function ' + func.__name__ + ' has been called at ' + datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+...         return func(*args, **kwargs)
+...     return decorator
+...
+>>> @log
+... def add(x, y):
+...     return x + y
+...
+>>> add.__name__
+'add'
+装饰器的应用场景非常多，我们后续学习 Flask Web 开发的时候会大量使用装饰器来实现 Web 页面的路由等功能。
