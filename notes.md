@@ -82,8 +82,22 @@ format(1.2345, ".2f") 得到的就是有两位小数的字符串 '1.23'
 ['PHP', 'C++', 'Vim', 'Python', 'Linux', 'Ruby', 'BigData', 'Cloud']
 
 传入一个参数 i 即 pop(i) 会将第 i 个元素弹出
+不同点是元组一旦创建就不能修改，上述的所有会修改列表内容的操作例如 sort()、append()等对于元组都不再适用
+>>> new_courses = ('Linux', ['BigData1','BigData2','BigData3'], 'Vim')
+>>> new_courses[1]
+['BigData1', 'BigData2', 'BigData3']
+>>> new_courses[1].append('BigData4')
+>>> new_courses
+('Linux', ['BigData1', 'BigData2', 'BigData3', 'BigData4'], 'Vim')
+需要注意空的集合不能够使用 {} 创建，只能使用 set 函数，因为{} 创建的是一个空的字典 ：
+>>> courses = set()
+>>> type(courses)
+<class 'set'>
+>>> courses = {'Linux', 'C++', 'Vim', 'Linux'}
+>>> courses
+{'Linux', 'Vim', 'C++'}
 
-
-
-
+>>> nameset = set('shiyanlou.com')
+>>> nameset
+{'c', 'o', '.', 'm', 'u', 'h', 's', 'a', 'n', 'i', 'y', 'l'}
 
