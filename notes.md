@@ -1,4 +1,5 @@
 https://www.shiyanlou.com/courses/983/labs/3953/document
+https://github.com/shiyanlou/louplus-python
 #!/usr/bin/env python3
 其中第一行的前两个字符 #! 称为 Shebang ，目的是告诉 shell 使用 Python 3 解释器执行其下面的代码 
 给脚本通过 Linux 的 chmod a+x XXX.py 命令增加了执行权限，则可以使用 ./XXX.py 这种方式直接执行脚本，否则需要用 python3 XXX.py 这种方式执行
