@@ -250,3 +250,55 @@ Python 中不是绝对的私有，还是通过 obj._Classname__privateAttributeO
 'shiyanlou'
 >>> s._Shiyanlou__get_private_name()                                                                                  
 'shiyanlou'
+静态变量和类方法是可以直接从类访问，不需要实例化对象就能访问。
+
+class Animal(object):
+    owner = 'jack'
+    def __init__(self, name):
+        self._name = name
+现在可以通过 Animal 或者子类直接访问
+
+print(Animal.owner)  # 'jack'
+print(Cat.owner)  # 'jack'
+类方法和静态变量类似，它也可以通过类名直接访问，类方法用 @classmethod 装饰，类方法中可以访问类的静态变量，下面添加了一个类方法 get_owner：
+class Animal(object):
+    owner = 'jack'
+    def __init__(self, name):
+        self._name = name
+    @classmethod
+    def get_owner(cls):
+        return cls.owner
+注意类方法的第一个参数传入的是类对象，而不是实例对象，所以是 cls。 
+
+print(Animal.get_owner())  # 'jack'
+print(Cat.get_owner())  # 'jack'
+property 可以将方法变成一个属性来使用，借助 property 可以实行 Python 风格的 getter/setter，即可以通过 property 获得和修改对象的某一个属性
+ class Animal(object):
+    def __init__(self, name):
+        self._name = name
+    @property
+    def name(self):
+        return self._name
+    @name.setter
+    def name(self, value):
+        self._name = value
+    def make_sound(self):
+        pass     
+ 静态方法用 @staticmethod 装饰，和 classmethod 有点类似。staticmethod 在运行时不需要实例的参与，它被放在类下面只是因为它和类有一点关系，但并不像类方法那样需要传递一个 cls 参数。
+
+静态方法的应用场景是当一个函数完全可以放到类外面单独实现的时候，如果这个函数和类还有一点联系，那么放入类中能更好的组织代码逻辑，那么可以考虑使用类中的静态方法。
+
+class Animal(object):
+    owner = 'jack'
+    def __init__(self, name):
+        self._name = name
+
+    @staticmethod
+    def order_animal_food():
+        print('ording...')
+        print('ok')
+        
+Animal.order_animal_food()        
+      
+      
+      
