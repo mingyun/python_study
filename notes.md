@@ -508,3 +508,40 @@ Queue 可以在初始化时指定一个最大容量：
 queue = Queue(maxsize=10)
 另外通过 Queue.empty() 方法可以判断队列中是否为空，是否还有数据可以读取，如果返回为 True 表示已经没有数据了
 
+>>> from collections import Counter
+>>> c = Counter('https://www.shiyanlou.com')
+>>> c
+Counter({'w': 3, 'h': 2, 't': 2, 's': 2, '/': 2, '.': 2, 'o': 2, 'p': 1, ':': 1, 'i': 1, 'y': 1, 'a': 1, 'n': 1, 'l': 1, 'u': 1, 'c': 1, 'm': 1})
+找出出现次数最多的前 n 个元素：
+
+>>> c.most_common(3)
+[('w', 3), ('h', 2), ('t', 2)]
+
+
+>>> from collections import OrderedDict
+>>> d = OrderedDict()
+>>> d['apple'] = 1
+>>> d['google'] = 2
+>>> d['facebook'] = 3
+>>> d['amazon'] = 4
+>>> d
+OrderedDict([('apple', 1), ('google', 2), ('facebook', 3), ('amazon', 4)])
+OrderedDict 同样能以元素插入的顺序来进行迭代或者序列化：
+
+>>> for key in d:
+...   print(key, d[key])
+...
+apple 1
+google 2
+facebook 3
+amazon 4
+>>> import json
+>>> json.dumps(d)
+'{"apple": 1, "google": 2, "facebook": 3, "amazon": 4}'
+base64 是一种编码方式，它可以将二进制数据编码 64 个可打印的 ASCII 字符。Base64要求把每三个8Bit的字节转换为四个6Bit的字节（38 = 46 = 24），然后把6Bit再添两位高位0，组成四个8Bit的字节，也就是说，转换后的字符串理论上将要比原来的长1/3。
+
+import base64
+>>> base64.b64encode(b'Hello, shiyanlou!')
+b'SGVsbG8sIHNoaXlhbmxvdSE='
+>>> base64.b64decode(b'SGVsbG8sIHNoaXlhbmxvdSE=')
+b'Hello, shiyanlou!'
