@@ -61,3 +61,29 @@ sys.argv[0] 为脚本名称， sys.argv[1] 为第一个参数
 python3 argtest.py 这样执行时可以执行到 if __name__ == '__main__': 这个代码块中 for 循环的内容，当通过 import argtest 作为模块导入到其他代码文件时不会执行if __name__ == '__main__':中的内容。
 format(1.2345, ".2f") 得到的就是有两位小数的字符串 '1.23'
 
+>>> courses.insert(0, 'Java')
+>>> courses
+['Java', 'Linux', 'Python', 'Vim', 'C++', 'PHP']
+>>> courses.insert(1, 'Ruby')
+>>> courses
+['Java', 'Ruby', 'Linux', 'Python', 'Vim', 'C++', 'PHP']
+>>> courses.count('Java')
+1 Java 这个元素在列表中出现了多少次。
+
+>>> courses.remove('Java')
+>>> courses
+['Ruby', 'Linux', 'Python', 'Vim', 'C++', 'PHP']
+>>> del courses[-1]
+>>> courses
+['Ruby', 'Linux', 'Python', 'Vim', 'C++']
+>>> new_courses = ['BigData', 'Cloud']
+>>> courses.extend(new_courses)
+>>> courses
+['PHP', 'C++', 'Vim', 'Python', 'Linux', 'Ruby', 'BigData', 'Cloud']
+
+传入一个参数 i 即 pop(i) 会将第 i 个元素弹出
+
+
+
+
+
