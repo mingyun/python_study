@@ -194,17 +194,59 @@ Port:  22
 
 Python 中的对象有不可变对象，指的是数值、字符串、元组等，和可变对象，指的是列表、字典等。如果是不可变对象作为参数，相当于是值的传递，函数中对该参数的修改不会保留。如果是可变对象，则相当于传引用，函数中的修改会保留。
 
+面向对象的 4 个核心概念：
 
+抽象
+封装
+继承
+多态
 
+object 是 Python 中所有对象的祖先，它是所有类的基类。类需要一个初始化方法，__init__ 是 Python 的初始化方法，注意前后各有两个下划线 _，self指代当前的对象
+class Dog(object):
+    def __init__(self, name):
+        self._name = name
+    def get_name(self):
+        return self._name
+    def set_name(self, value):
+        self._name = value
+    def bark(self):
+        print(self.get_name() + 'is making sound wang wang wang...')
 
+类是一个抽象的概念，而实例是一个具体的对象。比如说狗是一个抽象的概念，因为狗有很多种，而那个正在 wang wang 叫的叫旺财的狗是一个实例。
+class Animal(object):
+    def __init__(self, name):
+        self._name = name
+    def get_name(self):
+        return self._name
+    def set_name(self, value):
+        self._name = value
+    def make_sound(self):
+        pass
+class Dog(Animal):
+    def make_sound(self):
+        print(self.get_name() + ' is making sound wang wang wang...')
+cat = Dog('Kitty')
+dog.make_sound()
 
+多态就是使用同一方法对不同对象可以产生不同的结果。
+animals = [Dog('旺财'), Cat('Kitty'), Dog('来福'), Cat('Betty')]
+for animal in animals:
+    animal.make_sound()
+在 Python 中约定在属性方法名前添加 __ （两个下划线 _）来拒绝外部的访问
 
+>>> class Shiyanlou:                                                                                                                                                                                                
+...   __private_name = 'shiyanlou'                                                                                                                                                                                
+...   def __get_private_name(self):                                                                                   
+...     return self.__private_name                                                                                    
+...                                                                                                                   
+>>> s = Shiyanlou()                                                                                                                                                                                                                
+>>> s.__private_name                                                                                                  
+Traceback (most recent call last):                                                                                    
+  File "<stdin>", line 1, in <module>                                                                                 
+AttributeError: 'Shiyanlou' object has no attribute '__private_name'   
+Python 中不是绝对的私有，还是通过 obj._Classname__privateAttributeOrMethod 来访问：
 
-
-
-
-
-
-
-
-
+>>> s._Shiyanlou__private_name                                                                                        
+'shiyanlou'
+>>> s._Shiyanlou__get_private_name()                                                                                  
+'shiyanlou'
