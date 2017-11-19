@@ -130,6 +130,79 @@ True
 >>> coursesdict
 {5: 'Bash', 6: 'Python'}
 
+def char_count(str):
+    countdict = {}
+    for char in str:
+        c = countdict.get(char)
+        if c is None:
+            countdict[char] = 1
+        else:
+            countdict[char] += 1
+    print(countdict)
+def char_count(str):
+    countdict = {}
+    for char in str:
+        countdict[char] = countdict.setdefault(char, 0) + 1
+    print(countdict)
+使用 global 关键字，对函数中的 a 标志为全局变量，让函数内部使用全局变量的 a，那么整个程序中出现的 a 都将是这个
+
+
+#!/usr/bin/env python3
+a = 9
+def change():
+    global a
+    print(a)
+print("Before the function call ", a)
+print("inside change function", end=' ')# end=' ' 参数表示，print 打印后的结尾不用换行，而用空格。默认情况下 print 打印后会在结尾换行。
+change()
+print("After the function call ", a)
+>>> def connect(ipaddress, port):
+...     print("IP: ", ipaddress)
+...     print("Port: ", port)
+>>> connect(port=22, ipaddress='192.168.1.1')
+IP:  192.168.1.1
+Port:  22
+第一个是具有默认值的参数后面不能再有普通参数，比如 f(a,b=90,c) 就是错误的。
+第二个是默认值只被赋值一次，因此如果默认值是任何可变对象时会有所不同，比如列表、字典或大多数类的实例。例如，下面的函数在后续调用过程中会累积（前面）传给它的参数:
+>>> def f(a, data=[]):
+...     data.append(a)
+...     return data
+...
+>>> print(f(1))
+[1]
+>>> print(f(2))
+[1, 2]
+
+如果默认 data = [] 第二次的 data 默认值会包含第一次的结果，所以造成每次默认值是不同的
+>>> def f(a, data=None):
+...     if data is None:
+...         data = []
+...     data.append(a)
+...     return data
+...
+>>> print(f(1))
+[1]
+>>> print(f(2))
+[2] 
+
+可变参数的使用方法是在参数列表前加上 *
+>>> def connect(ipaddress, *ports):
+...     print("IP: ", ipaddress)
+...     for port in ports:
+...         print("Port: ", port)
+
+
+Python 中的对象有不可变对象，指的是数值、字符串、元组等，和可变对象，指的是列表、字典等。如果是不可变对象作为参数，相当于是值的传递，函数中对该参数的修改不会保留。如果是可变对象，则相当于传引用，函数中的修改会保留。
+
+
+
+
+
+
+
+
+
+
 
 
 
