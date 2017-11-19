@@ -340,7 +340,57 @@ if __name__ == '__main__':
 ...
 >>> with open('./courses.data', 'rb') as file:
 ...     new_courses = pickle.load(file)
-
+# 获取 numbers 中的所有偶数
+>>> [x for x in numbers if x % 2 == 0]
+[2, 4, 6, 8, 10]
+# 对 numbers 的每个数求平方
+>>> [x * x for x in numbers]
+[1, 4, 9, 16, 25, 36, 47, 84, 81, 100]
 >>> numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 >>> f = filter(lambda x: x % 2 == 0, numbers)
 >>> m = map(lambda x: x * x, numbers)      
+>>> d = {'a': 1, 'b': 2, 'c': 3}
+>>> {k:v*v for k, v in d.items()}
+{'a': 1, 'b': 4, 'c': 9}
+
+>>> letters = ['a', 'b', 'c']
+>>> it = iter(letters)
+>>> next(it)
+'a'
+>>> next(it)
+'b'
+>>> next(it)
+'c'
+>>> next(it)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+StopIteration
+要用 next 函数不断的去获取它的下一个值，直到迭代器返回 StopIteration异常。所有的可迭代对象都可以通过 iter 函数去获取它的迭代器
+字典是不能被迭代的，需要使用字典的方法 items() 把字典变成一个可迭代对象 
+能被 for 循环访问的都是可迭代的对象，能被 next() 函数获取下一个值的是迭代器。
+生成器只能被迭代一次，因为每次迭代的元素不是像列表元素一样，已经在内存中，而是你每迭代一次，它生成一个元素。
+>>> g = (x**x for x in range(1, 4))
+>>> g
+<generator object <genexpr> at 0x10d1a5af0>
+>>> for x in g:
+...     print(x)
+...
+1
+4
+27
+ 和列表解析有点像，只不过使用的是圆括号。不同于列表可以反复迭代，再迭代这个迭代器，它不会打印元素，也不回报错。
+
+使用生成器有什么好处呢？因为生成器不是把所有元素存在内存，而是动态生成的，所以当你要迭代的对象有非常多的元素时，使用生成器能为你节约很多内存，这是一个内存友好的特性。
+ yield 的使用方法和 return 类似。不同的是，return 可以返回有效的 Python 对象，而 yield 返回的是一个生成器，函数碰到 return 就直接返回了，使用了 yield 的函数，到 yield 返回一个元素，当再次迭代生成器时，会从 yield 后面继续执行，直到遇到下一个 yield 或者函数结束退出。
+>>> def fib(n):
+...     current = 0
+...     a, b = 1, 1
+...     while current < n:
+...         yield a
+...         a, b = b, a + b
+...         current += 1
+>>> f5 = fib(5)
+>>> f5
+<generator object fib at 0x10d1a5888>  https://www.shiyanlou.com/courses/983/labs/3961/document
+
+
